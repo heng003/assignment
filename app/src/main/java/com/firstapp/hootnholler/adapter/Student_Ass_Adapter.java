@@ -112,8 +112,8 @@ public class Student_Ass_Adapter extends RecyclerView.Adapter<Student_Ass_Adapte
             super(itemView);
 
             asgmTitle = itemView.findViewById(R.id.asgmTitle);
-            asgmDueDate = itemView.findViewById(R.id.dateTime);
-            dueMsg=itemView.findViewById(R.id.dueMsg);
+            asgmDueDate = itemView.findViewById(R.id.dueMsg);
+            dueMsg=itemView.findViewById(R.id.dateTime);
             card=itemView.findViewById(R.id.card);
         }
     }

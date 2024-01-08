@@ -5,12 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:id="@+id/peopleLayout"
-    android:padding="5dp">
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="20dp">
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="51dp"
-        android:layout_height="match_parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:srcCompat="@drawable/user1" />
 
     <TextView
