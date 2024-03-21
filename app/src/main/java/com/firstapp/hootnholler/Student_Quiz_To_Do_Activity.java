@@ -94,6 +94,7 @@ public class Student_Quiz_To_Do_Activity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
                     for(DataSnapshot classSnapshot : snapshot.getChildren()) {
+                        //fetch due date for every to do quiz
                         referenceStudentQuiz.child(classSnapshot.getKey()).child(ctgKey).child("setKeyInfo").child(setKey).child("dueDate").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -102,6 +103,7 @@ public class Student_Quiz_To_Do_Activity extends AppCompatActivity {
                                     if(timestamp != null) {
                                         Date date = new Date(timestamp);
 
+                                        //convert the timestamp retrieved in database to due date
                                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                                         String formattedDate = sdf.format(date);
 
@@ -109,12 +111,16 @@ public class Student_Quiz_To_Do_Activity extends AppCompatActivity {
                                         quizModel.setSetKey(setKey);
                                         quizModel.setDueDate(formattedDate);
                                         quizModel.setStatus(status);
+
+                                        //fetch the progress of the quizzes
                                         database.getReference().child("Categories").child(ctgKey).child("Sets").child(setKey).child("setName").addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 if(snapshot.exists()) {
                                                     quizModel.setTitle(snapshot.getValue(String.class));
                                                     if(quizModel.getStatus().equals("In progress")) {
+
+                                                        //fetch the progress for the in progress quiz
                                                         database.getReference().child("Categories").child(ctgKey).child("Sets").child(setKey)
                                                                 .child("Answers").child(uid).child("progress").addListenerForSingleValueEvent(new ValueEventListener() {
                                                                     @Override
@@ -122,6 +128,7 @@ public class Student_Quiz_To_Do_Activity extends AppCompatActivity {
                                                                         if(snapshot.exists()) {
                                                                             Integer snapshotValue = snapshot.getValue(Integer.class);
                                                                             if(snapshotValue != null) {
+                                                                                //add to do item in recycler view
                                                                                 quizModel.setProgress(snapshotValue);
                                                                                 ctgAdapter.addQuizModel(quizModel, ctgKey);
                                                                             }

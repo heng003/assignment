@@ -96,7 +96,7 @@ public class Student_Quiz_Fragment extends Fragment implements RecyViewInterface
         quizToDo = new HashMap<>();
         quizStatus = new HashMap<>();
 
-        binding.bell.setVisibility(View.GONE);
+//        binding.bell.setVisibility(View.GONE);
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         binding.recyCategory.setLayoutManager(layoutManager);
@@ -148,9 +148,9 @@ public class Student_Quiz_Fragment extends Fragment implements RecyViewInterface
                                                         postedQuizModels.add(postedQuizModel);
                                                         identifyToDoTask(model.getCtgKey(), model.getSetKey());
                                                         adapter.notifyItemInserted(list.size());
-                                                        if(finalCnt == ttl) {
-                                                            binding.bell.setVisibility(View.VISIBLE);
-                                                        }
+//                                                        if(finalCnt == ttl) {
+//                                                            binding.bell.setVisibility(View.VISIBLE);
+//                                                        }
                                                     }
                                                 }
                                             }

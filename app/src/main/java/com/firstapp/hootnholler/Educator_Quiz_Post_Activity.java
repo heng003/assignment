@@ -454,6 +454,7 @@ public class Educator_Quiz_Post_Activity extends AppCompatActivity implements Re
                     ArrayList<String> studentList = new ArrayList<>(studentsMap.keySet());
 
                     if(studentList != null && studentList.size() > 0) {
+                        //set due date
                         setDateDialog.show();
                         setDateDialog.findViewById(R.id.setDueDate).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -526,7 +527,7 @@ public class Educator_Quiz_Post_Activity extends AppCompatActivity implements Re
             .setValue(categoryModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-
+                    //insert the quiz to the students in database
                     referencePostedSet.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {

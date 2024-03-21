@@ -87,12 +87,11 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
 
         binding.textView.setText("Question " + questionNo);
 
-
-
         binding.uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String questionText = binding.enterQuestion.getText().toString().trim();
+                //educator does not enter quetsion
                 if (questionText.isEmpty()) {
                     Toast.makeText(Educator_Quiz_Add_Question_Activity.this, "Please enter the question", Toast.LENGTH_SHORT).show();
                     return;
@@ -100,6 +99,7 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
 
                 int checkedRadioButtonId = binding.RGAnswers.getCheckedRadioButtonId();
 
+                //educator does not select the correct option
                 if (checkedRadioButtonId == -1) {
                     Toast.makeText(Educator_Quiz_Add_Question_Activity.this, "Please mark the correct option", Toast.LENGTH_SHORT).show();
                     return;
@@ -130,6 +130,7 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
                 String optionC = ((EditText) binding.enterAnsC).getText().toString().trim();
                 String optionD = ((EditText) binding.enterAnsD).getText().toString().trim();
 
+                //create a question model and insert the details inside the model
                 QuestionModel model = new QuestionModel();
                 model.setQuestion(questionText);
                 model.setOptionA(optionA);
@@ -138,7 +139,9 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
                 model.setOptionD(optionD);
                 model.setCorrectAns(correctAnswer);
 
+                //check whether educator want to create a new question or modify a existing question
                 if(keyQuestion != null) {
+                    //modify an existing question in database
                     model.setKeyQuestion(keyQuestion);
                     referenceQuestions.child(keyQuestion).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -153,6 +156,7 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
                     });
                 }
                 else {
+                    //insert a new question to database
                     String questionKey = referenceQuestions.push().getKey();
                     model.setKeyQuestion(questionKey);
                     referenceQuestions.child(questionKey).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -167,7 +171,7 @@ public class Educator_Quiz_Add_Question_Activity extends AppCompatActivity {
                         }
                     });
                 }
-
+                //navigate to quiz question activity
                 Intent intent = new Intent(Educator_Quiz_Add_Question_Activity.this, Educator_Quiz_Question_Activity.class);
                 intent.putExtra("uid", uid);
                 intent.putExtra("key", keyCtg);

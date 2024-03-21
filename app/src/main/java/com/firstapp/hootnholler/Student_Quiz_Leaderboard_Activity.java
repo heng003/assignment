@@ -164,8 +164,11 @@ public class Student_Quiz_Leaderboard_Activity extends AppCompatActivity {
     }
 
     public void addAndSaveRanking() {
+        //add current student to the ranking list
         ranking.addCandidate(currCandidate);
+        //sort the list of students based on the descending order of score
         ranking.sortRanking();
+        //save the latest ranking to database
         referenceSet.child("Ranking").setValue(ranking.getCandidates()).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -174,6 +177,7 @@ public class Student_Quiz_Leaderboard_Activity extends AppCompatActivity {
         }).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                //display ranking of the student
                 displayRanking();
             }
         });
@@ -239,6 +243,7 @@ public class Student_Quiz_Leaderboard_Activity extends AppCompatActivity {
         return -1;
     }
 
+    //display the top three ranking
     public void displayRanking() {
         int position = getPosition(currCandidate.getUid()) + 1;
         displayRankingText(position, ranking.getCandidates().size());
@@ -254,6 +259,7 @@ public class Student_Quiz_Leaderboard_Activity extends AppCompatActivity {
         }
     }
 
+    //display the current student's ranking and score
     public void displayRankingText(int position, int totalCandidate) {
         binding.setMyRanking.setText(position + "/" + totalCandidate);
         binding.setMyScore.setText(score + "/" + questions.size());

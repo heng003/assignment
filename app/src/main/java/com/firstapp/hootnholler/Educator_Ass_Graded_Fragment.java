@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
 public class Educator_Ass_Graded_Fragment extends Fragment {
     Asgm_ArrayAdapter Adapter;
     ArrayList<Assignment> asgmList = new ArrayList<>();
@@ -84,12 +83,12 @@ public class Educator_Ass_Graded_Fragment extends Fragment {
                                 }
                             }
 
-                            asgmList.add(assignment);
+//                            asgmList.add(assignment);
 
-//
-//                            if (allGraded) {
-//                                asgmList.add(assignment);
-//                            }
+
+                            if (allGraded) {
+                                asgmList.add(assignment);
+                            }
                         }
                     }
                 }

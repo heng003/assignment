@@ -266,6 +266,7 @@ public class Student_Quiz_Do_Quiz_Activity extends AppCompatActivity {
         navigateToQuizSetActivity();
     }
 
+    //check the student's last selected option and the correctness of answer
     private void uploadAnswer() {
         String option = lastSelectedOption.getText().toString();
         boolean correctness = option.equals(model.getCorrectAns());
@@ -273,6 +274,7 @@ public class Student_Quiz_Do_Quiz_Activity extends AppCompatActivity {
         uploadAnswerToFirebase(answerModel);
     }
 
+    //upload the  to firebase
     private void uploadAnswerToFirebase(AnswerModel answerModel) {
         referenceSet.child("Answers").child(uid).child(model.getKeyQuestion()).setValue(answerModel).addOnFailureListener(new OnFailureListener() {
             @Override

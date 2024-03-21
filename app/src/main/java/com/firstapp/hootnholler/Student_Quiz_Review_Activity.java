@@ -83,6 +83,7 @@ public class Student_Quiz_Review_Activity extends AppCompatActivity {
             }
         }
 
+        //fetch student's answer and correct answer
         referenceAnswer.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -171,6 +172,7 @@ public class Student_Quiz_Review_Activity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //mark the correct option as green color
     public void updateCorrectButtonColor(Button selectedOption) {
         for (Button option : options) {
             if (option == selectedOption) {
@@ -180,6 +182,7 @@ public class Student_Quiz_Review_Activity extends AppCompatActivity {
         }
     }
 
+    //mark the wrong answer to red color
     public void updateWrongButtonColor(Button selectedOption) {
         for (Button option : options) {
             if (option == selectedOption) {

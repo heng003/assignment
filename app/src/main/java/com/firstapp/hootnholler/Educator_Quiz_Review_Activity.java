@@ -61,12 +61,14 @@ public class Educator_Quiz_Review_Activity extends AppCompatActivity implements 
                         String student = studentSnapshot.getKey();
                         QuizStudentModel model = new QuizStudentModel();
 
+                        //fetch every students' names
                         database.getReference().child("Users").child(student).child("fullname").addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.exists()) {
                                     model.setStudentName(snapshot.getValue(String.class));
 
+                                    //fetch completion status of every students
                                     referenceStudentAnswers.child(student).child("status").addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -75,12 +77,14 @@ public class Educator_Quiz_Review_Activity extends AppCompatActivity implements 
                                                 model.setStudentQuizStatus(status);
 
                                                 if(status.equals("Completed")) {
+                                                    //fetch the student's score
                                                     referenceStudentAnswers.child(student).child("score").addValueEventListener(new ValueEventListener() {
                                                         @Override
                                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                             if(snapshot.exists()) {
                                                                 Integer score = snapshot.getValue(Integer.class);
                                                                 model.setScore(String.valueOf(score));
+                                                                //add the student's data to recycler view
                                                                 list.add(model);
                                                                 adapter.notifyItemInserted(list.size());
                                                             }
@@ -92,12 +96,14 @@ public class Educator_Quiz_Review_Activity extends AppCompatActivity implements 
                                                         }
                                                     });
                                                 } else {
+                                                    //add the student's data to recycler view
                                                     list.add(model);
                                                     adapter.notifyItemInserted(list.size());
                                                 }
 
                                             } else {
                                                 model.setStudentQuizStatus("Incomplete");
+                                                //add the student's data to recycler view
                                                 list.add(model);
                                                 adapter.notifyItemInserted(list.size());
                                             }

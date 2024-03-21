@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -113,8 +114,8 @@ public class Parent_TaskStatus_Activity extends AppCompatActivity {
     }
 
     public void notifyWeekChange(){
-       checkWeek();
-       loadTaskData();
+        checkWeek();
+        loadTaskData();
     }
 
     public void checkWeek(){
@@ -134,25 +135,29 @@ public class Parent_TaskStatus_Activity extends AppCompatActivity {
         TotalInProgress = 0;
         Submissions = new ArrayList<>();
         // get the list of class code from student
-        this.StudentRef.child("classroom").addListenerForSingleValueEvent(new ValueEventListener() {
+        this.StudentRef.child("JoinedClass").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 final int[] numOfTask = {0};
                 Assignment.clear();
                 for (DataSnapshot dataSnapShot : snapshot.getChildren()) {
                     String classCode = dataSnapShot.getKey();
+                    System.out.println("je;l");
+                    System.out.println(classCode);
                     ClassroomRef.child(classCode).child("Assignment").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot classRoomSnapshot) {
                             for (DataSnapshot assignmentSnapShot: classRoomSnapshot.getChildren()) {
                                 int TaskStatus = 0;
                                 Assignment assignment = assignmentSnapShot.getValue(Assignment.class);
-                                if(isBetween(new Date(assignment.getUploadDate())
-                                        ,new Date(assignment.getDueDate()),
+                                System.out.println("je;l");
+                                System.out.println(assignment.getDescription());
+                                if(isBetween(new Date(Long.parseLong(assignment.getUploadDate()))
+                                        ,new Date(Long.parseLong(assignment.getDueDate())),
                                         firstDayOfWeek, lastDayOfWeek)){
 
                                     // iterate submission inside the assignment
-                                    for (DataSnapshot submissionSnapShot : assignmentSnapShot.child("submission").getChildren()){
+                                    for (DataSnapshot submissionSnapShot : assignmentSnapShot.child("Submission").getChildren()){
                                         if(submissionSnapShot.getKey().equals(StudentUid)){
                                             TaskStatus = checkTaskStatus(assignment, true);
                                             break;
@@ -168,9 +173,9 @@ public class Parent_TaskStatus_Activity extends AppCompatActivity {
                                     if(TaskStatus == 0){
                                         TotalCompleted++;
                                     }
-                                    else if(TaskStatus == 1){
-                                        TotalInProgress++;
-                                    }
+//                                    else if(TaskStatus == 1){
+//                                        TotalInProgress++;
+//                                    }
                                     else{
                                         TotalIncompleted++;
                                     }
@@ -184,7 +189,7 @@ public class Parent_TaskStatus_Activity extends AppCompatActivity {
                             NumOfTask.setText(String.valueOf(Assignment.size()));
                             NumOfCompletedTask.setText(String.valueOf(TotalCompleted));
                             NumOfIncompletedTask.setText(String.valueOf(TotalIncompleted));
-                            NumOfInProgressTask.setText(String.valueOf(TotalInProgress));
+//                            NumOfInProgressTask.setText(String.valueOf(TotalInProgress));
                         }
 
                         @Override
@@ -213,7 +218,7 @@ public class Parent_TaskStatus_Activity extends AppCompatActivity {
     }
 
     public int checkTaskStatus(Assignment assignment, boolean isSubmit){
-        Date dueDate = new Date(assignment.getDueDate());
+        Date dueDate = new Date(Long.parseLong(assignment.getDueDate()));
         Date currentDate = new Date();
 
         // if due

@@ -52,6 +52,7 @@
                     android:textColor="@color/black"
                     android:textSize="19dp"
                     android:textStyle="bold"
+                    android:layout_marginHorizontal="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,6 +66,7 @@
                     android:textColor="@color/black"
                     android:textSize="19dp"
                     android:textStyle="bold"
+                    android:layout_marginHorizontal="10dp"
                     app:layout_constraintBottom_toBottomOf="@+id/titleTV"
                     app:layout_constraintStart_toEndOf="@+id/titleTV"
                     app:layout_constraintTop_toTopOf="@+id/titleTV" />
@@ -79,6 +81,7 @@
                     android:textColor="@color/black"
                     android:textSize="19dp"
                     android:textStyle="bold"
+                    android:layout_marginHorizontal="10dp"
                     app:layout_constraintBottom_toBottomOf="@+id/statusTV"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/statusTV"
