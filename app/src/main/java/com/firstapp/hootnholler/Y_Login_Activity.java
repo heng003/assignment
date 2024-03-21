@@ -91,9 +91,10 @@ public class Y_Login_Activity extends AppCompatActivity {
         String email = UserEmail.getText().toString();
         String password = UserPassword.getText().toString();
 
-        //cannot leave empty space at email and password field
+             //cannot leave empty space at email and password field
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter your email...", Toast.LENGTH_SHORT).show();
+            //check the format of the input email
         }else if(!object.isValidEmail(email)){
             Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(password)) {
@@ -110,6 +111,7 @@ public class Y_Login_Activity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         String userId = mAuth.getCurrentUser().getUid();
+                        //different role will be navigated to different home page
                         checkRole(userId);
                     } else {
                         String message = task.getException().getMessage();

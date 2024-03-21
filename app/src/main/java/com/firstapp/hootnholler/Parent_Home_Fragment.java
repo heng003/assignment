@@ -227,9 +227,9 @@ public class Parent_Home_Fragment extends Fragment {
                             if(!setKey.contains(setSnapshot.getKey())){
                                 continue;
                             }
-                            for (DataSnapshot rankingSnapshot : setSnapshot.child("Ranking").getChildren()) {
-                                if (rankingSnapshot.child("uid").getValue(String.class).equals(studentUID)) {
-                                    totalMarkSet += rankingSnapshot.child("score").getValue(Double.class);
+                            for (DataSnapshot scoreSnapshot : setSnapshot.child("Answers").getChildren()) {
+                                if (scoreSnapshot.getKey().equals(studentUID)) {
+                                    totalMarkSet += scoreSnapshot.child("percentage").getValue(Double.class);
                                     break;
                                 }
                             }

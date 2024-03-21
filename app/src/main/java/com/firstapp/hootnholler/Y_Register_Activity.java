@@ -78,13 +78,13 @@ public class Y_Register_Activity extends AppCompatActivity {
         RoleSelection= (RadioButton) findViewById(UserRole.getCheckedRadioButtonId());
         String role;
 
-        //prompt user to key in the information if the column is still empty
+        //prompt user to key in the information if the field is still empty
         if(TextUtils.isEmpty(fullname)){
             Toast.makeText(Y_Register_Activity.this,"Please insert your fullname...",Toast.LENGTH_SHORT).show();
 
         }else if(TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please insert your email...", Toast.LENGTH_SHORT).show();
-
+        //check the format of email
         }else if (!isValidEmail(email)) {
             UserEmail.setError("Please enter a valid email.");
             UserEmail.requestFocus();
@@ -94,11 +94,11 @@ public class Y_Register_Activity extends AppCompatActivity {
 
         }else if(TextUtils.isEmpty(confirmPassword)) {
             Toast.makeText(this,  "Please insert your password...", Toast.LENGTH_SHORT).show();
-
-//        }else if (!password.matches(passwordPattern)) {
-//                UserPassword.setError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special characters.");
-//                UserPassword.requestFocus();
-
+        //check whether the password meet the minimum requirement
+        }else if (!password.matches(passwordPattern)) {
+                UserPassword.setError("Password must contain at least 8 characters, including uppercase, lowercase, number, and special characters.");
+                UserPassword.requestFocus();
+            //check whether the password is match with the confirm password
         }else if(!(password.equals(confirmPassword))) {
             Toast.makeText(this, "Your password do not match with your confirm password...", Toast.LENGTH_SHORT).show();
 
@@ -111,7 +111,7 @@ public class Y_Register_Activity extends AppCompatActivity {
             loadingBar.setMessage("Please wait, we are creating your new account...");
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
-            //use email and password to create
+            //use email and password to create a new account
             mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -125,7 +125,7 @@ public class Y_Register_Activity extends AppCompatActivity {
 
                         // Store the user object in the "Users" node of the Firebase Realtime Database
                         FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getUid()).setValue(user);
-
+                        //check the role of user and navigates to different pages of set up account
                         if(role.equalsIgnoreCase("student")) {
                             // Start the Setup_Activity
                             Intent mainIntent = new Intent(Y_Register_Activity.this, Student_Setup_Activity.class);

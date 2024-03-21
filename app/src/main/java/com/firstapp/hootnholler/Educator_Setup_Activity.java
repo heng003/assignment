@@ -135,7 +135,7 @@ public class Educator_Setup_Activity extends AppCompatActivity implements View.O
                     genderEducator=genderSelection.getText().toString();
                     // Store the user object in the "Users" node of the Firebase Realtime Database
                     FirebaseDatabase.getInstance().getReference().child("Educator").child(FirebaseAuth.getInstance().getUid()).setValue(educator);
-                    //Retrieve input from addHobby dynamic view and add into ArrayList. Pass the array list into database for storing
+                    //Retrieve input from addSubject dynamic view and add into ArrayList. Pass the array list into database for storing
                     newSubject.clear();
                     for (int i = 1; i < layoutList1.getChildCount(); i++) {
                         EditText ETSubject = (EditText) layoutList1.getChildAt(i).findViewById(R.id.newInput);
@@ -143,8 +143,7 @@ public class Educator_Setup_Activity extends AppCompatActivity implements View.O
                             newSubject.add(ETSubject.getText().toString());
                         }
                     }
-
-                    // Store the ConnectionKey in the "Parent" collection under the current user ID
+                    //store subject into database
                     if (!newSubject.isEmpty()) {
                         DatabaseReference SubjectReference = FirebaseDatabase.getInstance().getReference().child("Educator");
                         SubjectReference.child(currentUserID).child("Subject").setValue(newSubject);

@@ -92,11 +92,12 @@ public class Y_ChatActivity extends AppCompatActivity {
         });
     }
 
+    //sensitive word detection
     private String filterMessage(String originalMessage) {
-        // Define your list of sensitive/rude words
+        //list of sensitive/rude words
         String[] rudeWords = {"fork", "shat", "badword"};
 
-        // Replace rude words with asterisks
+        //replace rude words with asterisks
         String filteredMessage = originalMessage.toLowerCase();
         for (String rudeWord : rudeWords) {
             if (filteredMessage.contains(rudeWord)) {
@@ -111,11 +112,14 @@ public class Y_ChatActivity extends AppCompatActivity {
         return filteredMessage;
     }
 
+    //to retrieve group chat name
     public void getConversationDetails(){
         databaseReference.child("GroupChat").child(conversationKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //retrieve conversation name from the database
                 String conversationName = snapshot.child("Name").getValue(String.class);
+                //set name in the ui
                 chatName.setText(conversationName != null ? conversationName : "Chat");
             }
 
@@ -126,46 +130,65 @@ public class Y_ChatActivity extends AppCompatActivity {
         });
     }
 
+    //to send message in group chat
     public void sendMessage(String filteredMessage){
+        //get current timestamp
         long currentTime = System.currentTimeMillis();
+
+        //set message content in database
         databaseReference.child("GroupChat")
                 .child(conversationKey)
                 .child("message")
                 .child(String.valueOf(currentTime))
                 .child("content")
                 .setValue(filteredMessage);
+
+        //set sender's uid in database
         databaseReference.child("GroupChat")
                 .child(conversationKey)
                 .child("message")
                 .child(String.valueOf(currentTime))
                 .child("senderUID")
                 .setValue(uid);
+
+        //clear input field after sending message
         msg.setText("");
     }
 
+    //check if message present in input field
     public void checkMessage(){
         if(msg.getText().toString().isEmpty()){
+            //hide the send button if there is no message
             sendMsg.setVisibility(View.GONE);
         }
         else{
+            //show the send button if there is a message
             sendMsg.setVisibility(View.VISIBLE);
         }
     }
 
+    //to retrieve and display messages from the group chat
     public void getMessage(){
         databaseReference.child("GroupChat").child(conversationKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messages.clear();
                 for (DataSnapshot msgSnapshot : snapshot.child("message").getChildren()) {
+                    //deserialize the message data into a Message object
                     Message message = msgSnapshot.getValue(Message.class);
+                    //set the timestamp for the message
                     message.setTimestamp(Long.parseLong(msgSnapshot.getKey()));
+                    //add message to the list
                     messages.add(message);
+                    //notify adapter
                     adapter.notifyItemChanged(adapter.getItemCount() - 1);
+                    //scroll the chat list to the latest message
                     chatList.smoothScrollToPosition(adapter.getItemCount() - 1);
+                    //mark message as read
                     readMessage(message);
                 }
                 adapter.notifyDataSetChanged();
+                //scroll the chat list to the latest message
                 chatList.scrollToPosition(messages.size()-1);
             }
 
@@ -176,11 +199,13 @@ public class Y_ChatActivity extends AppCompatActivity {
         });
     }
 
+    //mark message as read
     public void readMessage(Message message){
-        // if not the user msg
+        // if not the user message
         if(message.getSenderUID() != null){
             if(!message.getSenderUID().equals(uid)){
                 Map<String, Boolean> readStatus;
+                //check if the message already has read status
                 if(message.getReadStatus() != null){
                     readStatus = message.getReadStatus();
                     readStatus.put(uid, true);
@@ -189,6 +214,7 @@ public class Y_ChatActivity extends AppCompatActivity {
                     readStatus = new HashMap<>();
                     readStatus.put(uid, true);
                 }
+                //set the updated read status in the message and the database
                 message.setReadStatus(readStatus);
                 databaseReference.child("GroupChat").child(conversationKey).child("message").child(String.valueOf(message.getTimestamp())).child("readStatus").setValue(readStatus);
             }

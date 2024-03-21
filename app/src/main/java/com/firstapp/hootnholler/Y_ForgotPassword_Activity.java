@@ -57,9 +57,11 @@ public class Y_ForgotPassword_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = editTextPwdResetEmail.getText().toString();
+                    //check the email field is not empty
                 if (TextUtils.isEmpty(email)) {
                     editTextPwdResetEmail.setError("Email is required");
                     editTextPwdResetEmail.requestFocus();
+                    //validate the email format
                 } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     editTextPwdResetEmail.setError("Valid email is required");
                     editTextPwdResetEmail.requestFocus();
@@ -75,6 +77,7 @@ public class Y_ForgotPassword_Activity extends AppCompatActivity {
         authProfile = FirebaseAuth.getInstance();
         DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users");
         userReference.addValueEventListener(new ValueEventListener() {
+            //check is the email registered
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long totalUsers = 0;
@@ -85,6 +88,7 @@ public class Y_ForgotPassword_Activity extends AppCompatActivity {
                     totalUsers ++;
                 }
                 if(totalUsers != snapshot.getChildrenCount()){
+                    //send reset password link to user's email
                     authProfile.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

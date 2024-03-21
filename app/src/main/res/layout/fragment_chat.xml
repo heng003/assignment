@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Y_ChatFragment">
 
     <ScrollView
@@ -23,6 +24,17 @@
                 android:textStyle="bold"
                 android:paddingLeft="38sp"
                 android:paddingTop="45sp" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="320dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="38sp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/search_view_bg"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search contact"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"

@@ -254,9 +254,11 @@ public class Y_EditAccount_Activity extends AppCompatActivity implements View.On
     }
 
     private void loadUserData(String currentUserID) {
+        //fetch the data which all users will have from database
         UserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //show at the field
                 fullname.setText(snapshot.child("fullname").getValue(String.class));
                 birthday.setText(snapshot.child("birthday").getValue(String.class));
                 phonenumber.setText(snapshot.child("phone_number").getValue(String.class));
@@ -268,6 +270,7 @@ public class Y_EditAccount_Activity extends AppCompatActivity implements View.On
                         female.setChecked(true);
                     }
                 }
+                //check the role and show certain information and set visibility for the item
                 role = snapshot.child("role").getValue(String.class);
                 checkRole(role, currentUserID);
             }
